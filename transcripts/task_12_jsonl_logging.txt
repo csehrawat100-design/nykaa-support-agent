@@ -1,0 +1,20 @@
+Task 12 — Structured JSONL Logging
+==================================
+
+Every HTTP request is logged once by FastAPI middleware. Every WebSocket chat
+message is logged once after processing. Each record is one JSON object on one
+line in logs/requests.jsonl.
+
+Fields:
+timestamp, trace_id, method, path, duration_ms, request_text, status_code.
+
+PII demonstration:
+Input contains +91 98765-43210 and card ending 4821.
+The persisted request_text contains [PHONE_MASKED] and [CARD_LAST4_MASKED],
+never the raw values.
+
+The same Task 10 mask_pii_text() function is used for model input and for the
+final disk-persistence boundary. This is deliberate defense in depth.
+
+Three /health requests produce three JSON objects and three JSONL lines.
+Trace IDs are non-empty and duration_ms is numeric.

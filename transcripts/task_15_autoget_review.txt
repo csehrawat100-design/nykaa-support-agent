@@ -1,0 +1,8 @@
+Task 14 demonstration
+
+Approval:
+A grounded CrewAI draft is approved unchanged by the Final Editor.
+
+Revision:
+A draft containing DELIBERATE_UNGROUNDED_CLAIM is revised and the unsupported
+claim is removed from the customer-facing final_answer.

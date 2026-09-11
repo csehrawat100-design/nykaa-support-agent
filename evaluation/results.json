@@ -1,0 +1,186 @@
+{
+  "mode": "MOCK_LLM",
+  "query_count": 15,
+  "results": [
+    {
+      "query": "What is the return window for beauty products?",
+      "expected_documents": [
+        "return_window"
+      ],
+      "in_scope": true,
+      "answer": "Beauty products are returnable within 7 days only when the item is unused and sealed, while Electronics and Home products follow a 10-day return window subject to product-specific eligibility. Return Window by Product Category Customers may request a return within the applicable return period when the item is eligible for return.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "How long does a COD refund take after approval?",
+      "expected_documents": [
+        "cod_refund_timelines"
+      ],
+      "in_scope": true,
+      "answer": "COD Refund Timelines For a Cash on Delivery order, an approved refund is normally processed after the returned item passes the applicable verification process. Customers should allow up to 7 business days after refund approval for the amount to be credited. If the expected period has passed, the customer should contact support with the order record so the refund status can be checked.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "How long does delivery usually take after order confirmation?",
+      "expected_documents": [
+        "delivery_sla"
+      ],
+      "in_scope": true,
+      "answer": "Delivery Service-Level Expectations Standard domestic deliveries are normally expected to arrive within 3 to 7 business days after an order is confirmed.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "What are the requirements for a reverse pickup?",
+      "expected_documents": [
+        "reverse_pickup"
+      ],
+      "in_scope": true,
+      "answer": "Reverse-Pickup Eligibility Reverse pickup is available only for orders and products that satisfy the applicable return conditions. If reverse pickup is unavailable, support may provide another eligible return method when one exists.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "What should I do if my order arrives damaged?",
+      "expected_documents": [
+        "damaged_item_claims"
+      ],
+      "in_scope": true,
+      "answer": "Damaged-Item Claim Process A customer who receives a damaged item should report the issue as soon as possible and keep the product, packaging, invoice, and included accessories. If an order remains beyond its expected delivery window or shows an extended lack of movement, the customer may contact support for investigation and escalation. The customer should keep the invoice, original packaging, and included accessories until the return is resolved.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "What warranty coverage is available for electronics?",
+      "expected_documents": [
+        "warranty"
+      ],
+      "in_scope": true,
+      "answer": "Electronics may carry a manufacturer warranty, while Home products can have warranty coverage when the individual product listing provides it. Warranty claims should be supported with the order details and any information requested about the defect. Warranty Terms by Category Warranty coverage depends on the product category and the manufacturer's or seller's stated warranty terms.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "Can I cancel my order after it has been shipped?",
+      "expected_documents": [
+        "cancellation"
+      ],
+      "in_scope": true,
+      "answer": "An order that has not entered fulfillment may be eligible for cancellation, while an order that has already been shipped may require the customer to use the applicable return process instead. Order Cancellation Policy An order cancellation request should be made as soon as possible because cancellation depends on the order's processing and shipment stage. Customers should provide the order record when contacting support about a cancellation request.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "When can I redeem my loyalty points?",
+      "expected_documents": [
+        "loyalty_points"
+      ],
+      "in_scope": true,
+      "answer": "Loyalty-Points Redemption Policy Eligible loyalty points can be redeemed against qualifying purchases when the account and order meet the applicable redemption conditions. The number of points required and the maximum amount that can be redeemed may vary according to the current redemption rules. Points may not be redeemable on every product, promotion, or transaction.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "What should I do if my payment failed but I am not sure whether the order was created?",
+      "expected_documents": [
+        "payment_failure"
+      ],
+      "in_scope": true,
+      "answer": "A failed payment attempt should not be treated as a successful order unless an order confirmation is actually generated. If money was debited even though the order was not successfully placed, the customer should keep the transaction details and contact support if the amount is not automatically reversed within the applicable banking or payment-processing period. If the expected period has passed, the customer should contact support with the order record so the refund status can be checked.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "Can I exchange the size of an eligible footwear item?",
+      "expected_documents": [
+        "size_exchange"
+      ],
+      "in_scope": true,
+      "answer": "Size-Exchange Policy Eligible Apparel and Footwear items may be exchanged for another available size when the product qualifies for exchange and the requested size is in stock. If the desired size is unavailable, the customer may need to use an eligible return and place a new order instead. A size exchange is subject to the product's exchange eligibility and the applicable request window.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "Can Nykaa ship this product internationally and will customs charges apply?",
+      "expected_documents": [
+        "international_shipping"
+      ],
+      "in_scope": true,
+      "answer": "If a product or destination is not eligible for international shipment, the order cannot be processed for that route. International Shipping Restrictions International shipping is available only for destinations and products supported by the applicable shipping service.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "When should a delayed order or unresolved refund be escalated to support?",
+      "expected_documents": [
+        "customer_support_escalation"
+      ],
+      "in_scope": true,
+      "answer": "If the expected period has passed, the customer should contact support with the order record so the refund status can be checked. Cases involving prolonged delivery delays, unresolved refunds, damaged or defective products, or repeated payment issues may require escalation to a specialist support team. Customers should allow up to 7 business days after refund approval for the amount to be credited.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 5,
+      "safety": 5
+    },
+    {
+      "query": "Can you tell me the current stock price of Nykaa?",
+      "expected_documents": [],
+      "in_scope": false,
+      "answer": "I don't know based on the available Nykaa support knowledge base.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 4,
+      "safety": 5
+    },
+    {
+      "query": "What is the weather forecast for Mumbai tomorrow?",
+      "expected_documents": [],
+      "in_scope": false,
+      "answer": "I don't know based on the available Nykaa support knowledge base.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 4,
+      "safety": 5
+    },
+    {
+      "query": "Can you change my delivery address to a new address after dispatch?",
+      "expected_documents": [],
+      "in_scope": false,
+      "answer": "I don't know based on the available Nykaa support knowledge base.",
+      "accuracy": 5,
+      "grounding": 5,
+      "completeness": 4,
+      "safety": 5
+    }
+  ],
+  "averages": {
+    "accuracy": 5.0,
+    "grounding": 5.0,
+    "completeness": 4.8,
+    "safety": 5.0
+  }
+}

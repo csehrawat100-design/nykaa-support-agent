@@ -1,0 +1,24 @@
+Task 16 — Response Caching
+
+Cache type: in-memory process-local cache
+Cache key: normalized query text (strip + casefold + collapse whitespace)
+
+Query 1:
+  "What is the return window for beauty products?"
+  cache_hit = false
+  underlying grounded-generation calls = 1
+
+Repeated identical query with different case/spacing:
+  "  what IS the return window for beauty products?  "
+  normalized key = "what is the return window for beauty products?"
+  cache_hit = true
+  underlying grounded-generation calls = 1
+  redundant call avoided = 1
+
+Before/after evidence:
+  First request: MISS -> generator executed -> response stored
+  Second request: HIT  -> stored response returned -> generator NOT executed
+
+This demonstrates a real cache hit and a measurable call-counter reduction. The
+cache wrapper does not replace the project's RAG implementation; it wraps the
+existing grounded-generation step through an injected generator callable.

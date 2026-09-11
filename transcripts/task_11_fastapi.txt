@@ -1,0 +1,22 @@
+Task 11 — FastAPI Deployment
+============================
+Implemented:
+- GET /health
+- POST /ask
+- POST /add-document
+- WebSocket /ws/chat
+- Pydantic request/response models
+- WebSocketDisconnect handling
+
+POST /ask masks fixed-format PII and applies the Task 10 prompt-injection
+guardrail before invoking the existing structured CrewAI response.
+
+POST /add-document validates and stores a document in an in-memory registry.
+It does not silently mutate the already-tested Chroma index.
+
+The WebSocket endpoint uses Task 8 session memory and catches
+WebSocketDisconnect so a client disconnect does not escape as an unhandled
+server exception.
+
+Task 12 can extend the existing JSON formatter so every persisted JSON-lines
+record contains trace ID, timing, and masked request text.

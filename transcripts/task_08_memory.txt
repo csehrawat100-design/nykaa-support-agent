@@ -1,0 +1,70 @@
+Task 8 — LangChain Session Memory Demonstration
+================================================
+
+Purpose
+-------
+Add in-process session memory without redesigning the tested CrewAI/RAG layer.
+
+Implementation
+--------------
+File: agents/memory.py
+
+The implementation uses:
+- InMemoryChatMessageHistory
+- RunnableWithMessageHistory
+- a session_id -> history mapping
+- an adapter RunnableLambda that passes the stored conversation history into the
+  existing CrewAI request
+- explicit clear_session()/clear_all_sessions() functions
+
+Memory is intentionally process-local. It is not expected to survive a restart,
+which satisfies the capstone requirement.
+
+Demonstration A — same session
+------------------------------
+Session ID: demo-session
+
+Turn 1
+User: What is the status of order NYK-0028?
+
+Observed:
+- The first request has no previous conversation.
+- The request is sent through the existing CrewAI layer.
+- RunnableWithMessageHistory stores the user message and assistant result.
+
+Turn 2
+User: What did I ask you about earlier?
+
+Observed:
+- The generated CrewAI request contains the previous user turn:
+  "What is the status of order NYK-0028?"
+- The session history contains four messages after two turns:
+  human, assistant, human, assistant.
+- Therefore the second turn receives state from the first turn.
+
+Demonstration B — fresh session
+--------------------------------
+Session ID: fresh-session
+
+User: What did I ask you about earlier?
+
+Observed:
+- The new session starts with "(no previous conversation)".
+- NYK-0028 is absent from the history/request.
+- The state from demo-session is not inherited.
+
+Demonstration C — explicit reset
+--------------------------------
+clear_session("demo-session") removes only that session's history.
+Other session histories remain unaffected.
+
+Acceptance mapping
+------------------
+Task 8 requires:
+1. LangChain session-based memory: satisfied by InMemoryChatMessageHistory +
+   RunnableWithMessageHistory.
+2. Multi-turn state carried across turns: demonstrated above.
+3. Separate fresh conversation with state absent/reset: demonstrated above.
+4. In-process-only persistence is sufficient: no disk/database persistence added.
+5. RunnableWithMessageHistory deprecation warnings are not silenced because the
+   capstone explicitly says the warning is expected.

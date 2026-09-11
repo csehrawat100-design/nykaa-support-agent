@@ -1,0 +1,5 @@
+Payment Failure and Retry Policy
+
+If an online payment fails, the customer should first confirm that the payment method has sufficient funds or available credit and then retry using the same or another supported payment method. A failed payment attempt should not be treated as a successful order unless an order confirmation is actually generated.
+
+If money was debited even though the order was not successfully placed, the customer should keep the transaction details and contact support if the amount is not automatically reversed within the applicable banking or payment-processing period. Customers should never share a complete payment-card number or other sensitive payment credentials with support.

@@ -1,0 +1,5 @@
+Return Window by Product Category
+
+Customers may request a return within the applicable return period when the item is eligible for return. Apparel and Footwear items may be returned within 7 days of delivery if they are unused, unworn, and have their original tags attached. Beauty products are returnable within 7 days only when the item is unused and sealed, while Electronics and Home products follow a 10-day return window subject to product-specific eligibility.
+
+Items marked as non-returnable, used products, or products missing required packaging or accessories may not qualify for a return. The customer should keep the invoice, original packaging, and included accessories until the return is resolved.

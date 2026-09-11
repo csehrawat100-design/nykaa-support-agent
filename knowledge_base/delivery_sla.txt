@@ -1,0 +1,5 @@
+Delivery Service-Level Expectations
+
+Standard domestic deliveries are normally expected to arrive within 3 to 7 business days after an order is confirmed. The expected delivery period can vary by destination, seller, product availability, and operational conditions.
+
+A tracking update is the best source for the latest movement of a shipped order. If an order remains beyond its expected delivery window or shows an extended lack of movement, the customer may contact support for investigation and escalation.

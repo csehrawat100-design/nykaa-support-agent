@@ -1,0 +1,58 @@
+Task 9 — Structured Output Schema
+================================
+
+Requirement
+-----------
+Every CrewAI response must conform to a declared Pydantic BaseModel and be
+validated in application code.
+
+Implementation
+--------------
+File: agents/schemas.py
+
+The declared schema is:
+
+ResponseFormat:
+- response: non-empty customer-facing answer
+- source_type: policy | order | mixed | fallback
+- grounded: boolean
+- extra fields are forbidden
+
+CrewAI integration
+------------------
+The Response Composer task declares:
+    output_pydantic=ResponseFormat
+
+The task description also requires the deterministic MOCK_LLM to emit ONLY a
+JSON object matching the same contract.
+
+The run_crew() boundary does a second explicit validation with:
+    ResponseFormat.model_validate(...)
+
+This means downstream Task 8 memory and future FastAPI layers receive a
+ResponseFormat object rather than an unchecked string.
+
+Validation demonstrations
+-------------------------
+1. Valid payload:
+   {"response":"Order is shipped.","source_type":"order","grounded":true}
+   Result: accepted as ResponseFormat.
+
+2. Missing source_type:
+   Result: rejected with Pydantic ValidationError.
+
+3. Unknown extra field:
+   Result: rejected because ResponseFormat uses extra="forbid".
+
+4. Invalid source_type:
+   Result: rejected because source_type is a Literal union.
+
+Zero-network / MOCK_LLM
+-----------------------
+The structured output path remains deterministic and keyless. No real model API
+is required.
+
+Acceptance mapping
+------------------
+Task 9 requires a Pydantic BaseModel named/used as response_format and validation
+of every crew response. Both are implemented and tested.

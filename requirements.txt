@@ -1,0 +1,16 @@
+# Final Capstone — Nykaa Domain Support Agent
+# Python 3.12
+# Graded path: deterministic MOCK_LLM, zero external LLM API keys.
+
+chromadb
+sentence-transformers
+crewai
+autogen-agentchat
+autogen-core
+langchain
+langchain-core
+fastapi
+uvicorn
+pydantic
+pytest
+python-dotenv

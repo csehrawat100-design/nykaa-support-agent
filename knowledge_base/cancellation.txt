@@ -1,0 +1,5 @@
+Order Cancellation Policy
+
+An order cancellation request should be made as soon as possible because cancellation depends on the order's processing and shipment stage. An order that has not entered fulfillment may be eligible for cancellation, while an order that has already been shipped may require the customer to use the applicable return process instead.
+
+If cancellation is successful, the amount paid through an online payment method is returned according to the applicable refund process. Customers should provide the order record when contacting support about a cancellation request.

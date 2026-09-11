@@ -1,0 +1,211 @@
+TASK 06 — ORDER LOOKUP WITH DESIGNED ESCALATION SCORE
+
+Objective
+---------
+Implement the second support tool using the Task 1 synthetic order dataset.
+
+Tool
+----
+check_order_status(record_id: str) -> dict
+
+The tool looks up a synthetic order by record_id and returns:
+- record_id
+- status
+- order_value_inr
+- escalation_score
+- recommend_escalation
+
+The lookup is deterministic and uses the existing ORDERS dataset. It does not
+call a network service or generate data at lookup time.
+
+
+Escalation-score design
+-----------------------
+The score combines two signals:
+
+1. Delayed shipment:
+   delayed_signal = 1.0 when delayed_shipment=True, otherwise 0.0
+
+2. Normalized recency:
+   recency_signal = days_since_created / 30
+
+The exact formula is:
+
+    escalation_score =
+        0.60 * delayed_signal
+        + 0.40 * recency_signal
+
+The result is clamped to [0, 1] and rounded to four decimal places.
+
+
+Reason for the weights
+----------------------
+Delayed shipment is given the larger weight (0.60) because it is a direct
+fulfillment-risk signal. Recency is a secondary continuous signal, weighted
+0.40, so older orders increase the score even when they are not marked delayed.
+
+
+Escalation threshold
+--------------------
+The operational escalation threshold is:
+
+    escalation_score > 0.70
+
+This is intentionally a practical threshold rather than a claim that the
+synthetic dataset represents real Nykaa operations.
+
+With this formula, a delayed order crosses the threshold when it is at least
+8 days old:
+
+    0.60 * 1.0 + 0.40 * (8 / 30)
+    = 0.7067
+
+Therefore:
+
+    delayed=True, days_since_created >= 8
+    -> recommend_escalation = True
+
+For a non-delayed order, the score depends only on recency:
+
+    0.40 * (days_since_created / 30)
+
+For example, a 29-day-old non-delayed order has a maximum score of:
+
+    0.40 * (29 / 30)
+    = 0.3867
+
+Therefore, based on this scoring design, old non-delayed orders remain below
+the escalation threshold while sufficiently old delayed orders cross it.
+
+
+Dataset-based examples
+----------------------
+The implementation is validated against the existing Task 1 synthetic
+dataset.
+
+Example 1:
+
+    check_order_status("NYK-0001")
+
+    {
+        "record_id": "NYK-0001",
+        "status": "Delivered",
+        "order_value_inr": 7577,
+        "escalation_score": 0.0,
+        "recommend_escalation": false
+    }
+
+Calculation:
+
+    delayed_shipment = false
+    days_since_created = 0
+
+    0.60 * 0 + 0.40 * (0 / 30)
+    = 0.0
+
+
+Example 2:
+
+    check_order_status("NYK-0006")
+
+    {
+        "record_id": "NYK-0006",
+        "status": "Refunded",
+        "order_value_inr": 16269,
+        "escalation_score": 0.16,
+        "recommend_escalation": false
+    }
+
+Calculation:
+
+    delayed_shipment = false
+    days_since_created = 12
+
+    0.60 * 0 + 0.40 * (12 / 30)
+    = 0.16
+
+
+Example 3:
+
+    check_order_status("NYK-0007")
+
+    {
+        "record_id": "NYK-0007",
+        "status": "Returned",
+        "order_value_inr": 20008,
+        "escalation_score": 0.84,
+        "recommend_escalation": true
+    }
+
+Calculation:
+
+    delayed_shipment = true
+    days_since_created = 18
+
+    0.60 * 1 + 0.40 * (18 / 30)
+    = 0.60 + 0.24
+    = 0.84
+
+Since:
+
+    0.84 > 0.70
+
+the tool recommends escalation.
+
+
+Validation
+----------
+The implementation validates:
+
+- blank record IDs
+- unknown record IDs
+- days_since_created values between 0 and 30
+- escalation score bounds between 0 and 1
+- deterministic lookup from the existing ORDERS dataset
+
+Blank record IDs raise:
+
+    ValueError("record_id must not be empty.")
+
+Unknown record IDs raise a ValueError indicating that the order was not found.
+
+
+Test Results
+------------
+Task 6 was validated using:
+
+    pytest tests/test_tools.py -v
+
+All six tests passed:
+
+    tests/test_tools.py::test_lookup_returns_required_fields PASSED
+    tests/test_tools.py::test_score_formula PASSED
+    tests/test_tools.py::test_delayed_order_score PASSED
+    tests/test_tools.py::test_score_is_bounded PASSED
+    tests/test_tools.py::test_unknown_record_raises PASSED
+    tests/test_tools.py::test_blank_record_raises PASSED
+
+Result:
+
+    6 passed
+
+
+Decision
+--------
+Task 6 establishes the deterministic order lookup tool that will be assigned
+to the Lookup Agent in Task 7.
+
+The tool exposes a designed numeric escalation score rather than a bare
+delayed/not-delayed boolean.
+
+The scoring mechanism combines fulfillment risk and order recency:
+
+    60% delayed-shipment signal
+    40% normalized order age
+
+The escalation recommendation is True only when:
+
+    escalation_score > 0.70
+
+The implementation is deterministic, bounded, validated, and fully covered
+by the Task 6 test suite.

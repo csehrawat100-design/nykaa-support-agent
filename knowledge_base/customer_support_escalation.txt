@@ -1,0 +1,5 @@
+Customer-Support Escalation Matrix
+
+Routine questions about policies, payment attempts, returns, exchanges, and delivery tracking should first be handled through the standard customer-support workflow. Cases involving prolonged delivery delays, unresolved refunds, damaged or defective products, or repeated payment issues may require escalation to a specialist support team.
+
+Urgent cases should include the relevant order record and a concise description of the issue so that the receiving team can investigate efficiently. Support should not request or store unnecessary sensitive information such as a complete payment-card number.

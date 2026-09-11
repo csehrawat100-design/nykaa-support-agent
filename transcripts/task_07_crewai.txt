@@ -1,0 +1,70 @@
+Task 7 — CrewAI Multi-Agent Orchestration
+
+Objective
+Task 7 adds a three-agent CrewAI orchestration layer around the already-tested
+Part 1 components. The selected RAG strategy remains `sentence` and the
+calibrated threshold remains `0.4844`.
+
+Agents
+1. Retrieval Agent
+   - Tool: `rag_policy_search`
+   - Collection: `sentence_collection`
+   - Threshold: `0.4844`
+2. Lookup Agent
+   - Tool: `order_status_lookup`
+   - Implementation: `agents.tools.check_order_status`
+3. Response Composer
+   - No lookup tool
+   - Combines the previous outputs into a final draft.
+
+Zero-network execution
+Before `kickoff()`:
+- `CREWAI_DISABLE_TELEMETRY=true`
+- `OTEL_SDK_DISABLED=true`
+- deterministic `MockLLM`
+- no API key
+
+Required demonstrations
+Policy query
+Input:
+`What is the return window for Beauty products?`
+
+Expected execution:
+`Retrieval Agent -> rag_policy_search -> Response Composer`
+
+Order query
+Input:
+`What is the status of order NYK-0007?`
+
+Expected execution:
+`Lookup Agent -> order_status_lookup -> Response Composer`
+
+The lookup implementation is expected to return the Task 6 result for
+`NYK-0007`, including an escalation score of `0.8400` and
+`recommend_escalation=True`.
+
+MOCK_LLM safeguards
+The custom model extends CrewAI's `BaseLLM`.
+
+Tool selection is based on the declared input schema:
+- `record_id` identifies the order lookup tool.
+- `query` identifies the RAG tool.
+
+It does not identify tools by checking whether a tool name contains
+`lookup`.
+
+The implementation also avoids searching the complete CrewAI prompt for
+`Observation:`. CrewAI's own ReAct template contains that example text before
+a tool has executed; parsing must be based on the generated model response.
+
+Acceptance evidence
+
+Current automated test evidence:
+- Crew construction passes with at least three agents.
+- Selected calibrated threshold is 0.4844.
+- RAGLookupTool declares a `query` input schema.
+- OrderLookupTool declares a `record_id` input schema.
+- Response Composer has no tools.
+- ResponseFormat contains response, source_type, and grounded fields.
+
+

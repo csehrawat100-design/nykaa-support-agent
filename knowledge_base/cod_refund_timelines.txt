@@ -1,0 +1,5 @@
+COD Refund Timelines
+
+For a Cash on Delivery order, an approved refund is normally processed after the returned item passes the applicable verification process. The refund may be issued through the refund method available for the order rather than as cash handed back by the delivery partner.
+
+Customers should allow up to 7 business days after refund approval for the amount to be credited. If the expected period has passed, the customer should contact support with the order record so the refund status can be checked.

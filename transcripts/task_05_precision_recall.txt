@@ -1,0 +1,178 @@
+TASK 05 — PRECISION / RECALL EVALUATION
+
+Objective
+--------
+Compare the two RAG chunking strategies at the document level and select the
+better strategy for subsequent tasks.
+
+Strategies evaluated
+--------------------
+1. Fixed-size chunking
+2. Sentence-based chunking
+
+Evaluation method
+-----------------
+The same five in-scope queries were evaluated separately against both Chroma
+collections.
+
+For each query:
+- Retrieve the top results.
+- Map retrieved chunks back to their parent document IDs.
+- Deduplicate parent document IDs.
+- Compare the retrieved document IDs with the expected document IDs.
+- Calculate document-level precision and recall.
+
+Metrics
+-------
+Precision = true positives / retrieved relevant-document candidates
+
+Recall = true positives / expected relevant documents
+
+Test queries
+------------
+1. What is the return window for beauty products?
+   Expected: return_window
+
+2. How long does a COD refund take after approval?
+   Expected: cod_refund_timelines
+
+3. How long does delivery usually take after order confirmation?
+   Expected: delivery_sla
+
+4. What are the requirements for a reverse pickup?
+   Expected: reverse_pickup
+
+5. What should I do if my order arrives damaged?
+   Expected: damaged_item_claims
+
+
+RESULTS
+=======
+
+Fixed-size strategy
+-------------------
+Mean precision: 0.2833333333333333
+Mean recall:    1.0
+
+Query results:
+
+1. Return window for beauty products
+   Retrieved: return_window, size_exchange, warranty
+   Relevant:  return_window
+   Precision: 0.3333333333333333
+   Recall:    1.0
+
+2. COD refund after approval
+   Retrieved: cod_refund_timelines, customer_support_escalation,
+              return_window, cancellation
+   Relevant:  cod_refund_timelines
+   Precision: 0.25
+   Recall:    1.0
+
+3. Delivery after order confirmation
+   Retrieved: delivery_sla, return_window, cod_refund_timelines, cancellation
+   Relevant:  delivery_sla
+   Precision: 0.25
+   Recall:    1.0
+
+4. Reverse pickup requirements
+   Retrieved: reverse_pickup, cancellation, payment_failure
+   Relevant:  reverse_pickup
+   Precision: 0.3333333333333333
+   Recall:    1.0
+
+5. Damaged order
+   Retrieved: damaged_item_claims, customer_support_escalation,
+              cancellation, delivery_sla
+   Relevant:  damaged_item_claims
+   Precision: 0.25
+   Recall:    1.0
+
+
+Sentence strategy
+-----------------
+Mean precision: 0.4066666666666666
+Mean recall:    1.0
+
+Query results:
+
+1. Return window for beauty products
+   Retrieved: return_window, damaged_item_claims
+   Relevant:  return_window
+   Precision: 0.5
+   Recall:    1.0
+
+2. COD refund after approval
+   Retrieved: cod_refund_timelines, cancellation
+   Relevant:  cod_refund_timelines
+   Precision: 0.5
+   Recall:    1.0
+
+3. Delivery after order confirmation
+   Retrieved: delivery_sla, return_window, cod_refund_timelines
+   Relevant:  delivery_sla
+   Precision: 0.3333333333333333
+   Recall:    1.0
+
+4. Reverse pickup requirements
+   Retrieved: reverse_pickup, return_window
+   Relevant:  reverse_pickup
+   Precision: 0.5
+   Recall:    1.0
+
+5. Damaged order
+   Retrieved: damaged_item_claims, delivery_sla, return_window,
+              customer_support_escalation, cod_refund_timelines
+   Relevant:  damaged_item_claims
+   Precision: 0.2
+   Recall:    1.0
+
+
+Arithmetic check
+----------------
+Fixed-size mean precision:
+(0.3333333333333333 + 0.25 + 0.25 + 0.3333333333333333 + 0.25) / 5
+= 0.2833333333333333
+
+Sentence mean precision:
+(0.5 + 0.5 + 0.3333333333333333 + 0.5 + 0.2) / 5
+= 0.4066666666666666
+
+Both strategies have mean recall of 1.0 because the expected parent document
+was retrieved for all five queries.
+
+Decision
+--------
+Sentence-based chunking is selected for subsequent tasks.
+
+Reason:
+- Sentence strategy has higher mean document-level precision:
+  0.4066666666666666 vs 0.2833333333333333.
+- Both strategies have perfect mean recall of 1.0.
+- Therefore sentence chunking provides better retrieval precision without
+  sacrificing coverage of the expected documents in this evaluation.
+
+Threshold carry-forward
+-----------------------
+Task 4 calibrated similarity thresholds separately for the two strategies.
+
+Fixed-size calibrated threshold: 0.5056
+Sentence calibrated threshold:   0.4844
+
+Because sentence-based chunking is selected, the sentence strategy's
+calibrated threshold of 0.4844 is the threshold to carry forward into later
+tasks.
+
+The DEFAULT_SIMILARITY_THRESHOLD value in generation.py does not need to be
+manually changed solely because of this experiment. The calibrated value is
+an experimental result associated with the selected strategy and should be
+provided when the selected strategy is used later.
+
+Conclusion
+----------
+Task 5 establishes the preferred retrieval configuration for the next stages:
+
+    Chunking strategy: sentence
+    Calibrated threshold: 0.4844
+
+The fixed-size strategy remains documented as the comparison baseline.
